@@ -5,8 +5,6 @@ let pyodide;
 
 /** @type {import("./types.d.ts").Samarium} */
 let samarium;
-/** @type {import("./types.d.ts").Samarium["Registry"]} */
-let reg;
 
 async function initPyodide() {
   pyodide = await loadPyodide({
@@ -31,15 +29,14 @@ async function initPyodide() {
     "import sys\nsys.exit = lambda *a, **b: None\n__name__='samarium'"
   );
   samarium = pyodide.pyimport("samarium");
-  reg = samarium.Registry(pyodide.globals);
-
-  return samarium, reg;
+  return samarium;
 }
 
 /** @param code {string} */
 function run(code) {
+  console.log("RUNNING", code);
   try {
-    samarium.run(code, reg);
+    samarium.run(code, samarium.Registry(pyodide.globals.copy()));
   } catch (err) {
     console.error(err);
     postMessage({ type: "STDERR", value: err });
@@ -47,13 +44,14 @@ function run(code) {
 }
 
 onmessage = async ({ data }) => {
-  console.log(data, { samarium, reg });
+  console.log(data, { samarium });
   switch (data.type) {
     case "HANDSHAKE":
       await initPyodide();
       return postMessage({ type: "READY", value: "Set Pyodide" });
     case "EXECUTE":
-      if (samarium && reg) {
+      postMessage({ type: "RESET" });
+      if (samarium) {
         run(data.value);
       } else {
         initPyodide().then(() => {

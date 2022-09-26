@@ -22,6 +22,7 @@ let ready = false;
 worker.addEventListener("message", ({ data }) => {
   switch (data.type) {
     case "READY":
+      // case "RESET":
       ready = true;
       output.innerText = "";
       break;
@@ -48,6 +49,6 @@ document.querySelector(".run").addEventListener("click", () => {
       "<span class='error'>[WebError] Samarium is not ready yet. Please Wait.</span>";
     return;
   }
-  output.innerText = "";
+  output.innerHTML = ansi.ansi_to_html("[0m");
   worker.postMessage({ type: "EXECUTE", value: jar.toString() });
 });
