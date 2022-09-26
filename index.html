@@ -23,7 +23,11 @@
     <label for="theme">Choose a theme for highlighting.</label>
     <select name="theme" id="theme" x-data="{themes: shiki.BUNDLED_THEMES}">
       <template x-for="theme in themes">
-        <option :value="theme" x-text="theme"></option>
+        <option
+          :value="theme"
+          x-text="theme"
+          :selected="'true' ? theme == 'github-dark' : ''"
+        ></option>
       </template>
     </select>
 
