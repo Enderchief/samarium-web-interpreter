@@ -16,7 +16,7 @@ async function initPyodide() {
     stderr: (msg) => {
       postMessage({ type: "STDERR", value: msg });
     },
-    indexURL: location.origin + "/pyodide",
+    indexURL: "./pyodide",
   });
 
   postMessage(pyodide.version);
