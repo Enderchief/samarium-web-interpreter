@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" href="favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
-        <script src="https://unpkg.com/shiki@0.10.1/dist/index.unpkg.iife.js"></script>
-        <title>Samarium Web</title>
-    </head>
-    <body>
-        <button class="run">Run Code</button>
-        <div class="container">
-            <div id="repl" class="editor"></div>
-            <pre id="output"></pre>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/shiki@0.10.1/dist/index.unpkg.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ansi_up@5.1.0/ansi_up.min.js"></script>
+    <script
+      src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"
+      defer
+    ></script>
+    <title>Samarium Web</title>
+  </head>
+  <body>
+    <button class="run">Run Code</button>
+    <div class="container">
+      <div id="repl" class="editor"></div>
+      <pre id="output"></pre>
+    </div>
 
-        <script type="module" src="highlight.js"></script>
-        <script type="module" src="main.js"></script>
-    </body>
+    <label for="theme">Choose a theme for highlighting.</label>
+    <select name="theme" id="theme" x-data="{themes: shiki.BUNDLED_THEMES}">
+      <template x-for="theme in themes">
+        <option :value="theme" x-text="theme"></option>
+      </template>
+    </select>
+
+    <script type="module" src="highlight.js"></script>
+    <script type="module" src="main.js"></script>
+  </body>
 </html>
